@@ -2,10 +2,11 @@
 
 class Connection {
     static public function connect() {
-        $host = "localhost";
-        $db="tiendaonline";
-        $userDB="root";
-        $passDB="";
+        global $env;
+        $host = $env->get('db_host');
+        $db = $env->get('db_name');
+        $userDB = $env->get('db_user');
+        $passDB = $env->get('db_password');
         try {
             $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $userDB, $passDB);
             return $pdo;
