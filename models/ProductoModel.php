@@ -3,14 +3,15 @@
 class ProductoModel {
 
     // Agregar un nuevo producto
-    static public function add($item_id, $variante, $precio, $stock) {
+    static public function add($nombre, $descripcion, $marca, $images, $categoria_id) {
         try {
             $pdo = Connection::connect();
-            $stmt = $pdo->prepare("INSERT INTO productos (item_id, variante, precio, stock) VALUES (:item_id, :variante, :precio, :stock)");
-            $stmt->bindParam(':item_id', $item_id, PDO::PARAM_INT);
-            $stmt->bindParam(':variante', $variante, PDO::PARAM_STR);
-            $stmt->bindParam(':precio', $precio, PDO::PARAM_STR);
-            $stmt->bindParam(':stock', $stock, PDO::PARAM_INT);
+            $stmt = $pdo->prepare("INSERT INTO productos (nombre, descripcion, marca, images, categoria_id) VALUES (:nombre, :descripcion, :marca, :images, :categoria_id)");
+            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+            $stmt->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
+            $stmt->bindParam(':marca', $marca, PDO::PARAM_STR);
+            $stmt->bindParam(':images', $images, PDO::PARAM_STR);
+            $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
             if ($stmt->execute()) {
                 return ['status' => true, 'message' => 'Producto agregado correctamente', 'data' => ['id' => $pdo->lastInsertId()]];
             } else {
@@ -22,14 +23,15 @@ class ProductoModel {
     }
 
     // Actualizar un producto
-    static public function update($id, $item_id, $variante, $precio, $stock) {
+    static public function update($id, $nombre, $descripcion, $marca, $images, $categoria_id) {
         try {
             $pdo = Connection::connect();
-            $stmt = $pdo->prepare("UPDATE productos SET item_id = :item_id, variante = :variante, precio = :precio, stock = :stock WHERE id = :id AND deleted_at IS NULL");
-            $stmt->bindParam(':item_id', $item_id, PDO::PARAM_INT);
-            $stmt->bindParam(':variante', $variante, PDO::PARAM_STR);
-            $stmt->bindParam(':precio', $precio, PDO::PARAM_STR);
-            $stmt->bindParam(':stock', $stock, PDO::PARAM_INT);
+            $stmt = $pdo->prepare("UPDATE productos SET nombre = :nombre, descripcion = :descripcion, marca = :marca, images = :images, categoria_id = :categoria_id WHERE id = :id AND deleted_at IS NULL");
+            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+            $stmt->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
+            $stmt->bindParam(':marca', $marca, PDO::PARAM_STR);
+            $stmt->bindParam(':images', $images, PDO::PARAM_STR);
+            $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             if ($stmt->execute()) {
                 return ['status' => true, 'message' => 'Producto actualizado correctamente'];
@@ -74,7 +76,7 @@ class ProductoModel {
         }
     }
 
-    // Obtener todos los productos (sin los eliminados)
+    // Obtener todos los productos (sin eliminar)
     static public function getAll() {
         try {
             $pdo = Connection::connect();
