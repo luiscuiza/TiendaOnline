@@ -1,9 +1,13 @@
 <?php
 
-/* Crear el Usuario Administrador */
+require_once 'helpers/env.php';
+require_once 'helpers/connection.php';
+require_once 'models/UserModel.php';
 
-require_once '../helpers/connection.php';
-require_once '../models/UserModel.php';
+global $env;
+$env = new Environment('.env');
+
+/* Crear el Usuario Administrador */
 
 UserModel::add(
     "Luis",                // Nombre
@@ -12,6 +16,8 @@ UserModel::add(
     "admin",               // Contraseña
     "admin"                // Rol
 );
+
+/* Crear el Usuario Cliente */
 
 UserModel::add(
     "Esther",              // Nombre
